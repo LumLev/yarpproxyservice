@@ -1,0 +1,45 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Error",
+      "Microsoft.AspNetCore": "Information"
+    }
+  },
+  "AllowedHosts": "*",
+  "ReverseProxy": {
+    "Routes": {
+      "firstcluster": {
+        "ClusterId": "firstcluster",
+        "Match": {
+          "Path": "{**catch-all}",
+          "Hosts": [ "firstdomain.tld" ]
+        }
+      },
+        "secondcluster": {
+          "ClusterId": "secondcluster",
+          "Match": {
+            "Path": "{**catch-all}",
+            "Hosts": [ "seconddomain.tld" ]
+          }
+        }
+    },
+    "Clusters": {
+      "firstcluster": {
+        "Destinations": {
+          "firstdomain.tld": { "Address": "https://*:7000/" }
+        }
+      },
+      "secondcluster": {
+        "Destinations": {
+          "seconddomain.tld": { "Address": "http://localhost:80/spa" }
+        }
+      }
+    }
+  },
+  "LettuceEncrypt": {
+    "AcceptTermsOfService": true,
+    "DomainNames": [ "firstdomain.tld", "seconddomain.tld" ],
+    "EmailAddress": "email@address.tld"
+  } 
+}
+
